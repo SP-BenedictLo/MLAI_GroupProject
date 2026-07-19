@@ -135,6 +135,12 @@ def image_gen_w_aug(train_parent_directory, test_parent_directory, batch_size: i
     val_batch_size = batch_size*2
     test_batch_size = batch_size*2
 
+    # normalise images using standard ImageNet scaling values
+    normalisation = transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
+
     # Image resizing and augmentation (training only)
     train_transform = transforms.Compose([
         transforms.Resize((299, 299)),
@@ -144,11 +150,14 @@ def image_gen_w_aug(train_parent_directory, test_parent_directory, batch_size: i
             translate=(0.1, 0.1),
             scale=(0.8, 1.2)
         ),
-        transforms.ToTensor()
+        transforms.ToTensor(),
+        normalisation
     ])
+
     test_transform = transforms.Compose([
         transforms.Resize((299, 299)),
-        transforms.ToTensor()
+        transforms.ToTensor(),
+        normalisation
     ])
 
     # train, val, test generators
