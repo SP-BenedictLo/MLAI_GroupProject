@@ -24,7 +24,6 @@ def import_and_predict(image_data, model):
 
 
 NUM_CLASSES = 3
-# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 device = torch.device("cpu")
 weights = Inception_V3_Weights.DEFAULT
 
