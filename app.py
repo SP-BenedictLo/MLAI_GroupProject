@@ -3,24 +3,7 @@ import streamlit as st
 import torch
 from PIL import Image, ImageOps
 from torchvision.models import inception_v3, Inception_V3_Weights
-from functions import build_model
-
-
-def import_and_predict(image_data, model):
-        size = (299, 299)
-        image = ImageOps.fit(image_data, size, Image.Resampling.LANCZOS)     #prepare image with antialiasing
-        image = image.convert('RGB')    #convert image to RGB, Red Green Blue format
-        image = np.asarray(image)       #convert image into array
-        image = (image.astype(np.float32) / 255.0)      #create image array matrix
-        image = np.transpose(image, (2, 0, 1))          #HWC -> CHW
-        img_reshape = torch.from_numpy(image).unsqueeze(0)   #add batch dimension
-
-        model.eval()
-        with torch.no_grad():
-            prediction = model(img_reshape)
-            prediction = prediction.numpy()
-
-        return prediction
+from functions import build_model, import_and_predict
 
 
 NUM_CLASSES = 3
